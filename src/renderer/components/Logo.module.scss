@@ -1,0 +1,5 @@
+@import "~bootstrap/scss/mixins/image";
+
+.Logo {
+  @include img-fluid;
+}
