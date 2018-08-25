@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const StylishReporterPlugin = require('webpack-stylish');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -29,8 +28,6 @@ const style = (cssOptions, preProcessor) => {
     return loaders;
 };
 
-const stylish = new StylishReporterPlugin();
-
 const rendererProcessConfig = {
     name: 'renderer',
     mode: 'development',
@@ -42,7 +39,6 @@ const rendererProcessConfig = {
     },
     //target: 'electron-renderer',
     target: 'web',
-    stats: 'none',
     entry: src('renderer', 'index.js'),
     output: {
         filename: 'index.[hash:8].js',
@@ -147,7 +143,6 @@ const rendererProcessConfig = {
         ]
     },
     plugins: [
-        stylish,
         new CleanWebpackPlugin(['renderer'], { root: dist() }),
         new NamedModulesPlugin(),
         new HtmlWebPackPlugin({
@@ -166,7 +161,6 @@ const mainProcessConfig = {
     mode: 'development',
     performance: false,
     target: 'electron-main',
-    stats: 'none',
     entry: {
         index: src('main', 'index.js'),
         preload: src('main', 'preload.js')
@@ -226,7 +220,6 @@ const mainProcessConfig = {
         ]
     },
     plugins: [
-        stylish,
         new CleanWebpackPlugin(['main'], { root: dist() }),
         new CopyWebpackPlugin([{
             from: resolve('electron.json'),

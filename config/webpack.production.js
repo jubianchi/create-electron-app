@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
-const StylishReporterPlugin = require('webpack-stylish');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -26,8 +25,6 @@ const style = (cssOptions, preProcessor) => {
     return loaders;
 };
 
-const stylish = new StylishReporterPlugin();
-
 const rendererProcessConfig = {
     name: 'renderer',
     mode: 'production',
@@ -40,7 +37,6 @@ const rendererProcessConfig = {
     bail: true,
     //target: 'electron-renderer',
     target: 'web',
-    stats: 'none',
     entry: src('renderer', 'index.js'),
     output: {
         filename: 'index.[hash:8].js',
@@ -69,6 +65,9 @@ const rendererProcessConfig = {
                             cache: true,
                             failOnError: true,
                             configFile: require.resolve('eslint-config-react-app'),
+                            rules: {
+                                'eol-last': ["error", "always"]
+                            },
                         }
                     },
                 ],
@@ -85,7 +84,8 @@ const rendererProcessConfig = {
                                 'react'
                             ],
                             plugins: [
-                                'babel-plugin-transform-runtime'
+                                'babel-plugin-transform-runtime',
+                                'transform-object-rest-spread',
                             ]
                         },
                     }
@@ -130,7 +130,6 @@ const rendererProcessConfig = {
         ]
     },
     plugins: [
-        stylish,
         new CleanWebpackPlugin(['renderer'], { root: dist() }),
         new NamedModulesPlugin(),
         new HtmlWebPackPlugin({
@@ -159,7 +158,6 @@ const mainProcessConfig = {
     performance: false,
     bail: true,
     target: 'electron-main',
-    stats: 'none',
     entry: {
         index: src('main', 'index.js'),
         preload: src('main', 'preload.js')
@@ -168,8 +166,57 @@ const mainProcessConfig = {
         filename: '[name].js',
         path: dist('main'),
     },
+    resolve: {
+        alias: {
+            shared: src('shared')
+        },
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                enforce: 'pre',
+                use: [
+                    {
+                        loader: 'eslint-loader',
+                        options: {
+                            cache: true,
+                            failOnError: true,
+                            fix: true,
+                            configFile: require.resolve('eslint-config-react-app'),
+                            rules: {
+                                'eol-last': ["error", "always"]
+                            },
+                        }
+                    },
+                ],
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            cacheDirectory: true,
+                            presets: [
+                                ['env', {
+                                    targets: {
+                                        node: "8.9"
+                                    }
+                                }]
+                            ],
+                            plugins: [
+                                'transform-object-rest-spread'
+                            ]
+                        },
+                    }
+                ],
+            },
+        ]
+    },
     plugins: [
-        stylish,
         new CleanWebpackPlugin(['main'], { root: dist() }),
         new CopyWebpackPlugin([{
             from: resolve('electron.json'),

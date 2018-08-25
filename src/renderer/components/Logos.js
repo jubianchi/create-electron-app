@@ -4,6 +4,8 @@ import WebpackLogo from './Logo-webpack.svg';
 import ReactLogo from './Logo-react.svg';
 import BootstrapLogo from './Logo-bootstrap.svg';
 import ReduxLogo from './Logo-redux.svg';
+import JestLogo from './Logo-jest.svg';
+import SpectronLogo from './Logo-spectron.svg';
 import Logo from './Logo';
 import Link from './Link';
 
@@ -30,6 +32,14 @@ export default (props) => (
             <div className="col-1">
                 <Logo alt="Bootstrap" src={BootstrapLogo}/>
             </div>
+
+            <div className="col-1">
+                <Logo alt="Jest" src={JestLogo}/>
+            </div>
+
+            <div className="col-1">
+                <Logo alt="Spectron" src={SpectronLogo}/>
+            </div>
         </div>
         <div className={`row text-center text-light text-monospace justify-content-center ${props.className}`}>
             <Link href="https://electronjs.org/">#electron</Link>&nbsp;
@@ -38,7 +48,10 @@ export default (props) => (
             <Link href="https://redux.js.org/">#redux</Link>&nbsp;
             <Link href="https://getbootstrap.org/">#bootstrap</Link>&nbsp;
             <Link href="https://webpack.js.org/concepts/hot-module-replacement/"><abbr title="Hot Module Replacement" className="initialism">#HMR</abbr></Link>&nbsp;
-            <Link href="https://sass-lang.com/">#sass</Link>
+            <Link href="https://sass-lang.com/">#sass</Link>&nbsp;
+            <Link href="https://jestjs.io/">#jest</Link>&nbsp;
+            <Link href="http://airbnb.io/enzyme/">#enzyme</Link>&nbsp;
+            <Link href="https://electronjs.org/spectron/">#spectron</Link>
         </div>
     </Fragment>
 );
