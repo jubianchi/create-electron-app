@@ -1,32 +1,8 @@
-const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const make = (...parts) => parts.filter(part => !!part);
-const resolve = (...parts) => path.resolve(...make(__dirname, ...parts));
-const src = (process, ...parts) => resolve('..', 'src', process, ...parts);
-const dist = (process, ...parts) => resolve('..', 'dist', process, ...parts);
-
-const style = (cssOptions, preProcessor) => {
-    const loaders = [
-        require.resolve('style-loader'),
-        {
-            loader: require.resolve('css-loader'),
-            options: {
-                ...cssOptions,
-                sourceMap: true,
-            },
-        }
-    ];
-
-    if (preProcessor) {
-        loaders.push(preProcessor);
-    }
-
-    return loaders;
-};
+const { paths : { resolve, src, dist }, loaders: { style } } = require('./utils');
 
 const rendererProcessConfig = {
     name: 'renderer',
@@ -69,7 +45,7 @@ const rendererProcessConfig = {
                             fix: true,
                             configFile: require.resolve('eslint-config-react-app'),
                             rules: {
-                                'eol-last': ["error", "always"]
+                                'eol-last': ["error", "always"],
                             },
                         }
                     },
@@ -84,9 +60,10 @@ const rendererProcessConfig = {
                         options: {
                             cacheDirectory: true,
                             presets: [
-                                "react"
+                                'react',
                             ],
                             plugins: [
+                                'babel-plugin-transform-runtime',
                                 'transform-object-rest-spread',
                                 'react-hot-loader/babel',
                             ],
@@ -101,11 +78,13 @@ const rendererProcessConfig = {
                         test: /\.css$/,
                         exclude: /\.module\.css$/,
                         use: style({
+                            sourceMap: true,
                             importLoaders: 1,
                         }),
                     },{
                         test: /\.module\.css$/,
                         use: style({
+                            sourceMap: true,
                             importLoaders: 1,
                             modules: true,
                         }),
@@ -114,6 +93,7 @@ const rendererProcessConfig = {
                         test: /\.(sc|sa)ss/,
                         exclude: /\.module\.(sc|sa)ss/,
                         use: style({
+                            sourceMap: true,
                             importLoaders: 2,
                         }, {
                             loader: 'sass-loader',
@@ -125,6 +105,7 @@ const rendererProcessConfig = {
                     {
                         test: /\.module\.(sc|sa)ss/,
                         use: style({
+                            sourceMap: true,
                             importLoaders: 2,
                             modules: true,
                         }, {
@@ -150,10 +131,7 @@ const rendererProcessConfig = {
             filename: 'index.html',
             minify: false,
         }),
-    ],
-    node: {
-        fs: false
-    },
+    ]
 };
 
 const mainProcessConfig = {
@@ -211,6 +189,7 @@ const mainProcessConfig = {
                                 }]
                             ],
                             plugins: [
+                                'babel-plugin-transform-runtime',
                                 'transform-object-rest-spread'
                             ]
                         },

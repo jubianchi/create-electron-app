@@ -1,29 +1,8 @@
-const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-
-const make = (...parts) => parts.filter(part => !!part);
-const resolve = (...parts) => path.resolve(...make(__dirname, ...parts));
-const src = (process, ...parts) => resolve('..', 'src', process, ...parts);
-const dist = (process, ...parts) => resolve('..', 'dist', process, ...parts);
-
-const style = (cssOptions, preProcessor) => {
-    const loaders = [
-        require.resolve('style-loader'),
-        {
-            loader: require.resolve('css-loader'),
-            options: cssOptions,
-        }
-    ];
-
-    if (preProcessor) {
-        loaders.push(require.resolve(preProcessor));
-    }
-
-    return loaders;
-};
+const { paths : { resolve, src, dist }, loaders: { style } } = require('./utils');
 
 const rendererProcessConfig = {
     name: 'renderer',
@@ -208,6 +187,7 @@ const mainProcessConfig = {
                                 }]
                             ],
                             plugins: [
+                                'babel-plugin-transform-runtime',
                                 'transform-object-rest-spread'
                             ]
                         },

@@ -35,11 +35,9 @@ app.on('ready', () => {
         }));
     }
 
-    const store = createStore(reducers, {
+    createStore(reducers, {
         feel: null
     });
-
-    setTimeout(() => store.dispatch({ type: 'FOOBAR' }), 5000);
 
     mainWindow.on('closed', () => {
         mainWindow = null;

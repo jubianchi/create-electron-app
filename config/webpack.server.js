@@ -1,11 +1,7 @@
-const path = require('path');
 const child = require('child_process');
 const [rendererProcessConfig, mainProcessConfig] = require('./webpack.development');
 const { HotModuleReplacementPlugin } = require('webpack');
-
-const make = (...parts) => parts.filter(part => !!part);
-const resolve = (...parts) => path.resolve(...make(__dirname, ...parts));
-const dist = (process, ...parts) => resolve('..', 'dist', process, ...parts);
+const { paths : { resolve, dist } } = require('./utils');
 
 module.exports = [
     {
