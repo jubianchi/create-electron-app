@@ -1,34 +1,40 @@
 {
   "name": "create-electron-app",
   "version": "0.1.0",
-  "license": "MIT",
   "homepage": "https://github.com/jubianchi/create-electron-app",
-  "author": {
-    "name": "Julien Bianchi",
-    "email": "contact@jubianchi.fr"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jubianchi/create-electron-app"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Julien Bianchi",
+    "email": "contact@jubianchi.fr"
   },
   "bin": {
     "create-electron-app": "./scripts/main.js"
   },
   "scripts": {
-    "build": "npm run build:${NODE_ENV:-development}",
+    "build": "npm run build:${NODE_ENV:-${npm_package_config_default_build_environment:-development}}",
     "build:development": "webpack --config config/webpack.development.js",
     "build:production": "webpack --config config/webpack.production.js",
     "build:test": "webpack --config config/webpack.test.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p ${npm_package_config_conventional_changelog_preset:-angular}",
     "electron": "electron dist",
-    "start": "NODE_ENV=development npm-run-all -p start:renderer start:main",
+    "package": "npm run build:production && electron-builder -c config/electron-builder.js -mwl",
+    "start": "npm-run-all -p start:renderer start:main",
     "start:main": "nodemon --watch config/webpack.development.js --watch config/webpack.server.js --exec 'node_modules/.bin/webpack  --config config/webpack.server.js --config-name main --watch'",
     "start:renderer": "nodemon --watch config/webpack.development.js --watch config/webpack.server.js --exec 'node_modules/.bin/webpack-dev-server --config config/webpack.server.js --config-name renderer'",
     "test": "npm-run-all build:test test:renderer test:main",
     "test:main": "jest --coverage --coverageDirectory $(pwd)/coverage/main --config config/jest.main.js",
     "test:renderer": "jest --config config/jest.renderer.js",
-    "test:scripts": "jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'",
-    "package": "NODE_ENV=production npm run build && electron-builder -c config/electron-builder.js -mwl"
+    "test:scripts": "jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'"
+  },
+  "config": {
+    "conventional_changelog_preset": "angular",
+    "default_build_environment": "development",
+    "webpack_devserver_host": "0.0.0.0",
+    "webpack_devserver_port": "9000"
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -92,8 +98,5 @@
   "engines": {
     "node": ">=8",
     "npm": ">=6"
-  },
-  "config" : {
-    "conventional_changelog_preset": "angular"
   }
 }

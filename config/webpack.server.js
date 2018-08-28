@@ -11,8 +11,8 @@ module.exports = [
             new HotModuleReplacementPlugin(),
         ],
         devServer: {
-            host: '0.0.0.0',
-            port: 9000,
+            host: process.env.npm_package_config_webpack_devserver_host || '0.0.0.0',
+            port: process.env.npm_package_config_webpack_devserver_port || 9000,
             publicPath: '/',
             contentBase: dist('renderer'),
             compress: true,

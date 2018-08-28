@@ -15,7 +15,11 @@ const createWindow = () => {
     });
 
     if (process.env.NODE_ENV === 'development') {
-        window.loadURL(`http://localhost:9000`);
+        window.loadURL(url.format({
+            protocol: 'http:',
+            hostname: process.env.npm_package_config_webpack_devserver_host || '0.0.0.0',
+            port: process.env.npm_package_config_webpack_devserver_port || 9000,
+        }));
     } else {
         window.loadURL(url.format({
             pathname: path.resolve(__dirname, '..', 'renderer', 'index.html'),
