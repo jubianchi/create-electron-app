@@ -204,12 +204,14 @@ const mainProcessConfig = {
             from: resolve('electron.json'),
             to: dist('package.json'),
             transform: (content) => {
-                const { name, version } = require('../package.json');
+                const { name, version, author, homepage, repository } = require('../package.json');
 
                 return JSON.stringify({
                     ...JSON.parse(content),
                     name,
-                    version
+                    version,
+                    author,
+                    homepage: homepage || repository.url
                 })
             }
         }]),

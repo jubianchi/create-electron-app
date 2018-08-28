@@ -10,7 +10,7 @@ import Logo from './Logo';
 import Link from './Link';
 
 export default (props) => (
-    <div>
+    <Fragment>
         <div className="row text-center mb-3 justify-content-center">
             <div className="col-6">
                 <Logo alt="Electron" src={ElectronLogo}/>
@@ -53,5 +53,5 @@ export default (props) => (
             <Link href="http://airbnb.io/enzyme/">#enzyme</Link>&nbsp;
             <Link href="https://electronjs.org/spectron/">#spectron</Link>
         </div>
-    </div>
+    </Fragment>
 );

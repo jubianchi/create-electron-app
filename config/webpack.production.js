@@ -109,7 +109,7 @@ const rendererProcessConfig = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['renderer'], { root: dist() }),
+        new CleanWebpackPlugin(['*'], { root: dist() }),
         new NamedModulesPlugin(),
         new HtmlWebPackPlugin({
             template: src('renderer', 'index.html'),
@@ -197,17 +197,18 @@ const mainProcessConfig = {
         ]
     },
     plugins: [
-        new CleanWebpackPlugin(['main'], { root: dist() }),
         new CopyWebpackPlugin([{
             from: resolve('electron.json'),
             to: dist('package.json'),
             transform: (content) => {
-                const { name, version } = require('../package.json');
+                const { name, version, author, homepage, repository } = require('../package.json');
 
                 return JSON.stringify({
                     ...JSON.parse(content),
                     name,
-                    version
+                    version,
+                    author,
+                    homepage: homepage || repository.url
                 })
             }
         }]),

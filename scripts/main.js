@@ -4,7 +4,10 @@ const fs = require('fs-extra');
 const path = require('path');
 const semver = require('semver');
 const { Command } = require('commander');
+const emailValidator = require("email-validator");
+const urlValidator = require('valid-url');
 const packageJson = require('../package.json');
+const chalk = require('chalk');
 const { log, npm, prompt, steps, spdx } = require('./utils');
 
 let appDirectory, appDirectoryExists, updateExistingApp, appPackageJson;
@@ -96,10 +99,32 @@ new Promise((resolve) => {
                     .filter(choice => typeof input === 'undefined' || choice.name.match(pattern) || choice.value.match(pattern))
                     .sort(({ name: a }, { name: b }) => a > b ? 1 : b > a ? -1 : 0)
             },
-            filter: input => input === null ? (packageJson.license || '') : input,
+            filter: input => !input ? (packageJson.license || '') : input,
+        },
+        {
+            type: 'input',
+            name: 'authorName',
+            message: 'Application author name?',
+            default: (appPackageJson.author || {}).name || process.env.USER || null,
+        },
+        {
+            type: 'input',
+            name: 'authorName',
+            message: 'Application author email?',
+            default: (appPackageJson.author || {}).email || null,
+            validate: input => !input || emailValidator.validate(input) || 'Application author email is invalid',
+
+        },
+        {
+            type: 'input',
+            name: 'homepage',
+            message: 'Application homepage?',
+            default: appPackageJson.homepage || null,
+            validate: input => !input || !!urlValidator.isWebUri(input) || 'Application homepage is invalid',
+
         },
     ))
-    .then(answers => {
+    .then(({ authorName, authorEmail, ...answers }) => {
         log();
 
         if (!appDirectoryExists) {
@@ -109,14 +134,27 @@ new Promise((resolve) => {
         }
 
         log.info('Writing package.json file...');
-        steps.packageJson(appDirectory, packageJson, { ...appPackageJson, ...answers });
+        const author = {};
+
+        if (authorName && authorEmail) {
+            author.name = authorName;
+            author.email = authorEmail;
+        } else {
+            log.warning(' ! You did not set the author name and/or email: this is required to package the application for Linux targets.');
+        }
+
+        if (!answers.homepage) {
+            log.warning(' ! You did not set the homepage: this is required to package the application for Linux targets.');
+        }
+
+        steps.packageJson(appDirectory, packageJson, { ...appPackageJson, author, ...answers });
         log.success(` ✔ File was written to ${path.resolve(appDirectory, 'package.json')}`);
 
         if (answers.license !== appPackageJson.license && spdx[answers.license].licenseText) {
             log.info('Writing LICENSE file...');
             steps.license(appDirectory, spdx[answers.license].licenseText);
             log.success(` ✔ File was written to ${path.resolve(appDirectory, 'LICENSE')}`);
-            log.warning(`   You should review the contents of ${path.resolve(appDirectory, 'LICENSE')} as it probably needs to be customized.`);
+            log.warning(` ! You should review the contents of ${path.resolve(appDirectory, 'LICENSE')} as it probably needs to be customized.`);
         }
 
         log.info('Preparing application sources...');
@@ -155,6 +193,21 @@ new Promise((resolve) => {
     .then(() => {
         log();
         log.success.block('Your application is ready!');
+
+        log('none', chalk`
+            \r{bold Before you start, you should:}
+   
+            \r* Be sure to have read the documentation;    
+            \r* Configure a VCS in your application directory (if it's not already done);
+            \r${ appDirectoryExists ? chalk`* Review the changes made by {magenta create-electron-app}` : chalk`* Review the contents of {magenta config/electron-builder.js}`};
+
+            \r{bold From now on, you will be able to:}
+
+            \r* Start your development environment using {magenta npm start};
+            \r* Execute the test suite using {magenta npm test};
+            \r* Build the application using {magenta npm run build};
+            \r* Package the application using {magenta npm run package};
+        `);
     })
     .catch(error => {
         log.error.block(error.message);

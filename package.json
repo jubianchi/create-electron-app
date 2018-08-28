@@ -2,6 +2,15 @@
   "name": "create-electron-app",
   "version": "0.1.0",
   "license": "MIT",
+  "homepage": "https://github.com/jubianchi/create-electron-app",
+  "author": {
+    "name": "Julien Bianchi",
+    "email": "contact@jubianchi.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jubianchi/create-electron-app"
+  },
   "bin": {
     "create-electron-app": "./scripts/main.js"
   },
@@ -17,17 +26,20 @@
     "test": "npm-run-all build:test test:renderer test:main",
     "test:main": "jest --coverage --coverageDirectory $(pwd)/coverage/main --config config/jest.main.js",
     "test:renderer": "jest --config config/jest.renderer.js",
-    "test:scripts": "jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'"
+    "test:scripts": "jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'",
+    "package": "NODE_ENV=production npm run build && electron-builder -c config/electron-builder.js -mwl"
   },
   "dependencies": {
     "chalk": "^2.4.1",
     "commander": "^2.17.1",
+    "email-validator": "^2.0.4",
     "fs-extra": "^7.0.0",
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "semver": "^5.5.1",
     "sort-package-json": "^1.15.0",
-    "spdx-license-list": "^4.1.0"
+    "spdx-license-list": "^4.1.0",
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -42,6 +54,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
+    "electron-builder": "^20.28.2",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.5.0",
     "enzyme-adapter-react-16": "^1.3.0",

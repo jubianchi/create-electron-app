@@ -92,8 +92,8 @@ module.exports = {
 
             return fs.mkdirpSync(path.resolve(appDirectory));
         },
-        packageJson: (appDirectory, packageJson, appPackageJson) => fs.writeFileSync(path.resolve(appDirectory, 'package.json'), JSON.stringify(sortPackageJson({
-            ...exclude(packageJson, [/^_/, 'bin', 'bundleDependencies', 'deprecated', 'optionalDependencies']),
+        packageJson: (appDirectory, packageJson, appPackageJson) => fs.writeFileSync(path.resolve(appDirectory, 'package.json'), `${JSON.stringify(sortPackageJson({
+            ...exclude(packageJson, [/^_/, 'bin', 'bundleDependencies', 'deprecated', 'optionalDependencies', 'author', 'homepage', 'repository']),
             private: true,
             ...appPackageJson,
             dependencies: {
@@ -108,16 +108,16 @@ module.exports = {
                 ...(appPackageJson.scripts || {}),
                 ...exclude(packageJson.scripts, ['test:scripts']),
             },
-        }), null, 2)),
+        }), null, 2)}\n`),
         license: (appDirectory, license) => fs.writeFileSync(path.resolve(appDirectory, 'LICENSE'), license),
         sources: function* (appDirectory) {
-            for (const entry of ['config', 'src']) {
+            for (const entry of ['config', 'resources', 'src']) {
                 fs.copySync(path.resolve(__dirname, '..', entry), path.resolve(appDirectory, entry));
 
                 yield entry;
             }
 
-            fs.writeFileSync(path.resolve(appDirectory, '.gitignore'), `${['/dist/', '/node_modules/'].join('\n')}\n`);
+            fs.writeFileSync(path.resolve(appDirectory, '.gitignore'), `${['/dist/', '/node_modules/', '/packages/'].join('\n')}\n`);
 
             yield '.gitignore';
         }
