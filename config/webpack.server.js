@@ -3,6 +3,17 @@ const [rendererProcessConfig, mainProcessConfig] = require('./webpack.developmen
 const { HotModuleReplacementPlugin } = require('webpack');
 const { paths : { resolve, dist } } = require('./utils');
 
+const csp = {
+    default: ['none'],
+    style: ['self', 'blob:'],
+    script: ['self', 'unsafe-inline'],
+    connect: [
+        'self',
+        `ws:`,
+    ],
+    img: ['self', 'data:'],
+};
+
 module.exports = [
     {
         ...rendererProcessConfig,
@@ -24,6 +35,17 @@ module.exports = [
             },
             watchContentBase: true,
             quiet: true,
+            headers: {
+                // Security checklist #6 and #7
+                // A CSP is applied when using the devserver
+                // This should also be applied to the main process so that CSP is applied in production
+                // but electron does not seem to honor modified headers
+                // See: https://github.com/electron/electron/issues/14342
+                // https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy
+                'Content-Security-Policy': Object.keys(csp).reduce((prev, key) => {
+                    return `${prev}${prev.length > 0 ? '; ' : ''}${key}-src ${csp[key].map(value => ['none', 'self', 'unsafe-inline'].indexOf(value) > -1 ? `'${value}'` : value).join(' ')}`;
+                }, '')
+            }
         },
     },
     {

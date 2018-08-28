@@ -4,6 +4,8 @@
 
 ## 🤔 Why?
 
+* Security best practices
+
 * [`create-react-app`](https://github.com/facebook/create-react-app)
 * [`electron-react-boilerplate`](https://github.com/chentsulin/electron-react-boilerplate)
 

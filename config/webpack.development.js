@@ -137,6 +137,7 @@ const rendererProcessConfig = {
 const mainProcessConfig = {
     name: 'main',
     mode: 'development',
+    devtool: 'source-map',
     performance: false,
     target: 'electron-main',
     entry: {
