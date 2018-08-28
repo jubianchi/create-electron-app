@@ -22,7 +22,7 @@ const rendererProcessConfig = {
     },
     resolve: {
         alias: {
-            shared: src('shared')
+            '@shared': src('shared')
         },
     },
     module: {
@@ -149,7 +149,7 @@ const mainProcessConfig = {
     },
     resolve: {
         alias: {
-            shared: src('shared')
+            '@shared': src('shared')
         },
     },
     module: {

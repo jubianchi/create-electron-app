@@ -117,7 +117,7 @@ module.exports = {
                 yield entry;
             }
 
-            fs.writeFileSync(path.resolve(appDirectory, '.gitignore'), `${['/dist/', '/node_modules/', '/packages/'].join('\n')}\n`);
+            fs.writeFileSync(path.resolve(appDirectory, '.gitignore'), `${['/dist/', '/node_modules/', '/packages/', '/coverage/'].join('\n')}\n`);
 
             yield '.gitignore';
         }

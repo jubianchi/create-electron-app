@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import feelGood from 'shared/actions/feel-good';
-import feelBad from 'shared/actions/feel-bad';
+// The shared module is aliased and resolved by Webpack and Jest.
+// You can include any file from this directory using the @shared alias.
+import feelGood from '@shared/actions/feel-good';
+import feelBad from '@shared/actions/feel-bad';
 import style from './Feeling.module.scss';
 
 export default connect(

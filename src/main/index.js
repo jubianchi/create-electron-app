@@ -3,7 +3,9 @@ import * as url from 'url';
 import { app, BrowserWindow } from 'electron'
 import installExtension, {REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import createStore from './store/create-store';
-import reducers from 'shared/reducers';
+// The shared module is aliased and resolved by Webpack and Jest.
+// You can include any file from this directory using the @shared alias.
+import reducers from '@shared/reducers';
 
 const createWindow = () => {
     const window = new BrowserWindow({
