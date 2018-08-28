@@ -9,7 +9,7 @@ module.exports = {
     setupTestFrameworkScriptFile: resolve('jest', 'setup.main.js'),
     testEnvironment: 'node',
     transform: {
-        '^.+\\.js$': resolve('jest', 'transform', 'jsx'),
+        '^.+\\.js$': resolve('jest', 'transform', 'js'),
     },
     "moduleNameMapper": {
         "shared/(.*)$": src('shared', '$1'),

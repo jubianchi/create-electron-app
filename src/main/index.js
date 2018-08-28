@@ -5,42 +5,62 @@ import installExtension, {REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } fr
 import createStore from './store/create-store';
 import reducers from 'shared/reducers';
 
-let mainWindow;
-
-app.on('ready', () => {
-    if (process.env.NODE_ENV === 'development') {
-        try {
-            installExtension([REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
-                .then(name => console.log(`Added Extension:  ${name}`))
-                .catch(err => console.log('An error occurred: ', err));
-        } catch (err) {}
-    }
-
-    const cfg = {
+const createWindow = () => {
+    const window = new BrowserWindow({
+        show: false,
         webPreferences: {
             nodeIntegration: false,
             preload: path.resolve(__dirname, 'preload.js'),
-        }
-    };
-
-    mainWindow = new BrowserWindow({ ...cfg });
+        },
+    });
 
     if (process.env.NODE_ENV === 'development') {
-        mainWindow.loadURL(`http://localhost:9000`);
+        window.loadURL(`http://localhost:9000`);
     } else {
-        mainWindow.loadURL(url.format({
+        window.loadURL(url.format({
             pathname: path.resolve(__dirname, '..', 'renderer', 'index.html'),
             protocol: 'file:',
             slashes: true,
         }));
     }
 
+    window.webContents.once('did-finish-load', () => {
+        window.show();
+    });
+};
+
+app.on('ready', () => {
+    if (process.env.NODE_ENV === 'development') {
+        try {
+            installExtension([
+                REACT_PERF,
+                REACT_DEVELOPER_TOOLS,
+                REDUX_DEVTOOLS
+            ])
+                .then(name => console.log(`Added Extension:  ${name}`))
+                .catch(err => console.log('An error occurred: ', err));
+        } catch (err) {}
+    }
+
     createStore(reducers, {
         feel: null
     });
 
-    mainWindow.on('closed', () => {
-        mainWindow = null;
-    });
+    createWindow();
 });
 
+app.on('window-all-closed', () => {
+    // On MacOS, even after all windows are closed applications stay "in-memory".
+    // They can be reactivated at any time.
+    if (process.platform !== 'darwin') {
+        app.quit();
+    }
+});
+
+app.on('activate', () => {
+    // On MacOS, even after all windows are closed applications stay "in-memory".
+    // If there is no open windows we create a new one.
+    if (process.platform === 'darwin' && BrowserWindow.getAllWindows().length === 0) {
+        createWindow();
+    }
+});
