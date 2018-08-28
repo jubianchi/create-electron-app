@@ -19,6 +19,7 @@
     "build:development": "webpack --config config/webpack.development.js",
     "build:production": "webpack --config config/webpack.production.js",
     "build:test": "webpack --config config/webpack.test.js",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s -p ${npm_package_config_conventional_changelog_preset:-angular}",
     "electron": "electron dist",
     "start": "NODE_ENV=development npm-run-all -p start:renderer start:main",
     "start:main": "nodemon --watch config/webpack.development.js --watch config/webpack.server.js --exec 'node_modules/.bin/webpack  --config config/webpack.server.js --config-name main --watch'",
@@ -52,6 +53,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
+    "conventional-changelog-cli": "^2.0.5",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
     "electron-builder": "^20.28.2",
@@ -90,5 +92,8 @@
   "engines": {
     "node": ">=8",
     "npm": ">=6"
+  },
+  "config" : {
+    "conventional_changelog_preset": "angular"
   }
 }
