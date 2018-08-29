@@ -16,7 +16,7 @@ module.exports = {
                 {
                     loader: require.resolve('css-loader'),
                     options: cssOptions,
-                }
+                },
             ];
 
             if (preProcessor) {
@@ -25,5 +25,5 @@ module.exports = {
 
             return loaders;
         },
-    }
+    },
 };

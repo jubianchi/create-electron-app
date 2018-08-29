@@ -26,9 +26,13 @@ styles.block.none.bold = msg => msg;
 
 const block = (type = 'none', msg = '') => {
     const pad = ` ${msg} `.replace(/./g, ' ');
-    const title = `${styles.block[type].bold(` ${type.substr(0, 1).toUpperCase()}${type.substr(1)}${pad.substr(type.length + 1)}`)}\n`;
+    const title = `${styles.block[type].bold(
+        ` ${type.substr(0, 1).toUpperCase()}${type.substr(1)}${pad.substr(type.length + 1)}`,
+    )}\n`;
 
-    return `${type !== 'none' ? title : ''}${styles.block[type](pad)}\n${styles.block[type](` ${msg} `)}\n${styles.block[type](pad)}`;
+    return `${type !== 'none' ? title : ''}${styles.block[type](pad)}\n${styles.block[type](
+        ` ${msg} `,
+    )}\n${styles.block[type](pad)}`;
 };
 const line = (type = 'none', msg = '') => `${styles.line[type](`${msg}`)}`;
 const log = (type = 'none', msg = '', isBlock = false) => {
@@ -57,23 +61,24 @@ log.warning = (msg, isBlock = false) => log[isBlock ? 'block' : 'line']('warning
 log.warning.line = msg => log.warning(msg);
 log.warning.block = msg => log.warning(msg, true);
 
-const exclude = (object, excluded) => Object.keys(object)
-    .filter(key => !excluded.includes(key) && !excluded.find(regexp => key.match(regexp)))
-    .reduce((prev, key) => ({
-        ...prev,
-        [key]: object[key],
-    }), {});
+const exclude = (object, excluded) =>
+    Object.keys(object)
+        .filter(key => !excluded.includes(key) && !excluded.find(regexp => key.match(regexp)))
+        .reduce(
+            (prev, key) => ({
+                ...prev,
+                [key]: object[key],
+            }),
+            {},
+        );
 
 module.exports = {
     log,
-    npm: (cwd, ...opts) => child.spawnSync(
-        'npm',
-        ['--silent', ...opts],
-        {
+    npm: (cwd, ...opts) =>
+        child.spawnSync('npm', ['--silent', ...opts], {
             stdio: 'inherit',
-            cwd
-        }
-    ),
+            cwd,
+        }),
     prompt: (...prompts) => {
         inquirer.registerPrompt('autocomplete', autocomplete);
 
@@ -81,45 +86,65 @@ module.exports = {
     },
     spdx: {
         '': { name: '' },
-        'UNLICENSED': { name: 'Unlicensed' },
+        UNLICENSED: { name: 'Unlicensed' },
         ...require('spdx-license-list/full'),
     },
     steps: {
-        appDirectory: (appDirectory) => {
+        appDirectory: appDirectory => {
             if (fs.existsSync(appDirectory)) {
                 throw new Error(`Directory ${appDirectory} already exists!`);
             }
 
             return fs.mkdirpSync(path.resolve(appDirectory));
         },
-        packageJson: (appDirectory, packageJson, appPackageJson) => fs.writeFileSync(path.resolve(appDirectory, 'package.json'), `${JSON.stringify(sortPackageJson({
-            ...exclude(packageJson, [/^_/, 'bin', 'bundleDependencies', 'deprecated', 'optionalDependencies', 'author', 'homepage', 'repository']),
-            private: true,
-            ...appPackageJson,
-            dependencies: {
-                ...(appPackageJson.dependencies || {}),
-                ...packageJson.optionalDependencies,
-            },
-            devDependencies: {
-                ...(appPackageJson.devDependencies || {}),
-                ...packageJson.devDependencies,
-            },
-            scripts: {
-                ...(appPackageJson.scripts || {}),
-                ...exclude(packageJson.scripts, ['test:scripts']),
-            },
-        }), null, 2)}\n`),
+        packageJson: (appDirectory, packageJson, appPackageJson) =>
+            fs.writeFileSync(
+                path.resolve(appDirectory, 'package.json'),
+                `${JSON.stringify(
+                    sortPackageJson({
+                        ...exclude(packageJson, [
+                            /^_/,
+                            'bin',
+                            'bundleDependencies',
+                            'deprecated',
+                            'optionalDependencies',
+                            'author',
+                            'homepage',
+                            'repository',
+                        ]),
+                        private: true,
+                        ...appPackageJson,
+                        dependencies: {
+                            ...(appPackageJson.dependencies || {}),
+                            ...packageJson.optionalDependencies,
+                        },
+                        devDependencies: {
+                            ...(appPackageJson.devDependencies || {}),
+                            ...packageJson.devDependencies,
+                        },
+                        scripts: {
+                            ...(appPackageJson.scripts || {}),
+                            ...exclude(packageJson.scripts, ['test:scripts']),
+                        },
+                    }),
+                    null,
+                    2,
+                )}\n`,
+            ),
         license: (appDirectory, license) => fs.writeFileSync(path.resolve(appDirectory, 'LICENSE'), license),
-        sources: function* (appDirectory) {
+        sources: function*(appDirectory) {
             for (const entry of ['config', 'resources', 'src']) {
                 fs.copySync(path.resolve(__dirname, '..', entry), path.resolve(appDirectory, entry));
 
                 yield entry;
             }
 
-            fs.writeFileSync(path.resolve(appDirectory, '.gitignore'), `${['/dist/', '/node_modules/', '/packages/', '/coverage/'].join('\n')}\n`);
+            fs.writeFileSync(
+                path.resolve(appDirectory, '.gitignore'),
+                `${['/dist/', '/node_modules/', '/packages/', '/coverage/'].join('\n')}\n`,
+            );
 
             yield '.gitignore';
-        }
+        },
     },
 };

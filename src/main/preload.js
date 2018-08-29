@@ -9,5 +9,5 @@ window.getGlobal = remote.getGlobal.bind(remote);
 // Spectron must be allowed to access Electron's APIs
 // https://github.com/electron/spectron#node-integration
 if (process.env.NODE_ENV === 'test') {
-    window.electronRequire = eval('require');
+    window.electronRequire = eval('require'); // eslint-disable-line no-eval
 }

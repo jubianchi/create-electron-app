@@ -1,5 +1,5 @@
-import {FEEL_GOOD} from "../actions/feel-good";
-import {FEEL_BAD} from "../actions/feel-bad";
+import { FEEL_GOOD } from '../actions/feel-good';
+import { FEEL_BAD } from '../actions/feel-bad';
 
 export default (state = null, action) => {
     switch (action.type) {

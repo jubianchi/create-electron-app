@@ -1,10 +1,10 @@
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
 
 .Link {
-  color: lighten($info, 15%);
+    color: lighten($info, 15%);
 }
 
 .Link:hover {
-  color: $info;
+    color: $info;
 }

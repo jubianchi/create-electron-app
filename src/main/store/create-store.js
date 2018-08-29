@@ -1,20 +1,11 @@
-import {applyMiddleware, combineReducers, compose, createStore} from "redux";
-import {ipcMain} from "electron";
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { ipcMain } from 'electron';
 import ipc from './middleware';
 
 export default (reducers, state, middlewares = []) => {
-    const enhancers = [
-        applyMiddleware(
-            ...middlewares,
-            ipc,
-        ),
-    ];
+    const enhancers = [applyMiddleware(...middlewares, ipc)];
 
-    const store = createStore(
-        combineReducers(reducers),
-        state,
-        compose(...enhancers)
-    );
+    const store = createStore(combineReducers(reducers), state, compose(...enhancers));
 
     global.reduxState = store.getState();
 
@@ -25,7 +16,7 @@ export default (reducers, state, middlewares = []) => {
             ...action,
             meta: {
                 ...(action.meta || {}),
-                sender: event.sender.id
+                sender: event.sender.id,
             },
         });
     });

@@ -1,8 +1,10 @@
-const { paths : { resolve, dist } } = require('./utils');
+const {
+    paths: { resolve, dist },
+} = require('./utils');
 
 module.exports = {
     appId: 'fr.jubianchi.create-electron-app',
-    productName: "create-electron-app",
+    productName: 'create-electron-app',
     directories: {
         app: dist(),
         output: resolve('..', 'packages'),
@@ -27,7 +29,7 @@ module.exports = {
                 y: 115,
                 type: 'link',
                 path: '/Applications',
-            }
+            },
         ],
     },
     win: {},

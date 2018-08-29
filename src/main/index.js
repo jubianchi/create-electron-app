@@ -1,7 +1,7 @@
 import * as path from 'path';
 import * as url from 'url';
-import { app, BrowserWindow, session, shell } from 'electron'
-import installExtension, {REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
+import { app, BrowserWindow, session, shell } from 'electron';
+import installExtension, { REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer';
 import createStore from './store/create-store';
 // The shared module is aliased and resolved by Webpack and Jest.
 // You can include any file from this directory using the @shared alias.
@@ -40,17 +40,21 @@ const createWindow = () => {
     });
 
     if (process.env.NODE_ENV === 'development') {
-        window.loadURL(url.format({
-            protocol: 'http:',
-            hostname: process.env.npm_package_config_webpack_devserver_host || '0.0.0.0',
-            port: process.env.npm_package_config_webpack_devserver_port || 9000,
-        }));
+        window.loadURL(
+            url.format({
+                protocol: 'http:',
+                hostname: process.env.npm_package_config_webpack_devserver_host || '0.0.0.0',
+                port: process.env.npm_package_config_webpack_devserver_port || 9000,
+            }),
+        );
     } else {
-        window.loadURL(url.format({
-            pathname: path.resolve(__dirname, '..', 'renderer', 'index.html'),
-            protocol: 'file:',
-            slashes: true,
-        }));
+        window.loadURL(
+            url.format({
+                pathname: path.resolve(__dirname, '..', 'renderer', 'index.html'),
+                protocol: 'file:',
+                slashes: true,
+            }),
+        );
     }
 
     window.webContents.once('did-finish-load', () => {
@@ -61,22 +65,18 @@ const createWindow = () => {
 app.on('ready', () => {
     if (process.env.NODE_ENV === 'development') {
         try {
-            installExtension([
-                REACT_PERF,
-                REACT_DEVELOPER_TOOLS,
-                REDUX_DEVTOOLS,
-            ])
+            installExtension([REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
                 .then(name => console.log(`Added Extension:  ${name}`))
                 .catch(err => console.log('An error occurred: ', err));
         } catch (err) {}
     }
 
     createStore(reducers, {
-        feel: null
+        feel: null,
     });
 
     if (process.env.NODE_ENV !== 'production') {
-        session.defaultSession.clearCache(function () {
+        session.defaultSession.clearCache(function() {
             console.log('cache cleared');
         });
     }
@@ -131,5 +131,5 @@ app.on('web-contents-created', (event, contents) => {
         event.preventDefault();
 
         shell.openExternal(navigationUrl);
-    })
+    });
 });

@@ -2,7 +2,10 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { paths : { resolve, src, dist }, loaders: { style } } = require('./utils');
+const {
+    paths: { resolve, src, dist },
+    loaders: { style },
+} = require('./utils');
 
 const rendererProcessConfig = {
     name: 'renderer',
@@ -23,7 +26,7 @@ const rendererProcessConfig = {
     },
     resolve: {
         alias: {
-            '@shared': src('shared')
+            '@shared': src('shared'),
         },
     },
     module: {
@@ -31,7 +34,7 @@ const rendererProcessConfig = {
             {
                 parser: {
                     requireEnsure: false,
-                }
+                },
             },
             {
                 test: /\.js$/,
@@ -44,10 +47,12 @@ const rendererProcessConfig = {
                             cache: true,
                             failOnError: true,
                             configFile: require.resolve('eslint-config-react-app'),
+                            plugins: ['css-modules'],
                             rules: {
-                                'eol-last': ["error", "always"]
+                                'css-modules/no-unused-class': 'error',
+                                'css-modules/no-undef-class': 'error',
                             },
-                        }
+                        },
                     },
                 ],
             },
@@ -60,19 +65,19 @@ const rendererProcessConfig = {
                         options: {
                             cacheDirectory: true,
                             presets: [
-                                ['env', {
-                                    targets: {
-                                        chrome: "61"
-                                    }
-                                }],
-                                'react'
+                                [
+                                    'env',
+                                    {
+                                        targets: {
+                                            chrome: '61',
+                                        },
+                                    },
+                                ],
+                                'react',
                             ],
-                            plugins: [
-                                'babel-plugin-transform-runtime',
-                                'transform-object-rest-spread',
-                            ]
+                            plugins: ['babel-plugin-transform-runtime', 'transform-object-rest-spread'],
                         },
-                    }
+                    },
                 ],
             },
             {
@@ -84,7 +89,8 @@ const rendererProcessConfig = {
                         use: style({
                             importLoaders: 1,
                         }),
-                    },{
+                    },
+                    {
                         test: /\.module\.css$/,
                         use: style({
                             importLoaders: 1,
@@ -94,24 +100,30 @@ const rendererProcessConfig = {
                     {
                         test: /\.(sc|sa)ss/,
                         exclude: /\.module\.(sc|sa)ss/,
-                        use: style({
-                            importLoaders: 2,
-                        }, 'sass-loader'),
+                        use: style(
+                            {
+                                importLoaders: 2,
+                            },
+                            'sass-loader',
+                        ),
                     },
                     {
                         test: /\.module\.(sc|sa)ss/,
-                        use: style({
-                            importLoaders: 2,
-                            modules: true,
-                        }, 'sass-loader'),
+                        use: style(
+                            {
+                                importLoaders: 2,
+                                modules: true,
+                            },
+                            'sass-loader',
+                        ),
                     },
                 ],
             },
             {
                 test: /\.((pn|jpe?|sv)g|gif|bmp)$/i,
                 use: ['url-loader'],
-            }
-        ]
+            },
+        ],
     },
     plugins: [
         new CleanWebpackPlugin(['*'], { root: dist() }),
@@ -144,7 +156,7 @@ const mainProcessConfig = {
     target: 'electron-main',
     entry: {
         index: src('main', 'index.js'),
-        preload: src('main', 'preload.js')
+        preload: src('main', 'preload.js'),
     },
     output: {
         filename: '[name].js',
@@ -152,7 +164,7 @@ const mainProcessConfig = {
     },
     resolve: {
         alias: {
-            '@shared': src('shared')
+            '@shared': src('shared'),
         },
     },
     module: {
@@ -170,9 +182,9 @@ const mainProcessConfig = {
                             fix: true,
                             configFile: require.resolve('eslint-config-react-app'),
                             rules: {
-                                'eol-last': ["error", "always"]
+                                'eol-last': ['error', 'always'],
                             },
-                        }
+                        },
                     },
                 ],
             },
@@ -185,46 +197,45 @@ const mainProcessConfig = {
                         options: {
                             cacheDirectory: true,
                             presets: [
-                                ['env', {
-                                    targets: {
-                                        node: "8.9"
-                                    }
-                                }]
+                                [
+                                    'env',
+                                    {
+                                        targets: {
+                                            node: '8.9',
+                                        },
+                                    },
+                                ],
                             ],
-                            plugins: [
-                                'babel-plugin-transform-runtime',
-                                'transform-object-rest-spread'
-                            ]
+                            plugins: ['babel-plugin-transform-runtime', 'transform-object-rest-spread'],
                         },
-                    }
+                    },
                 ],
             },
-        ]
+        ],
     },
     plugins: [
-        new CopyWebpackPlugin([{
-            from: resolve('electron.json'),
-            to: dist('package.json'),
-            transform: (content) => {
-                const { name, version, author, homepage, repository } = require('../package.json');
+        new CopyWebpackPlugin([
+            {
+                from: resolve('electron.json'),
+                to: dist('package.json'),
+                transform: content => {
+                    const { name, version, author, homepage, repository } = require('../package.json');
 
-                return JSON.stringify({
-                    ...JSON.parse(content),
-                    name,
-                    version,
-                    author,
-                    homepage: homepage || repository.url
-                })
-            }
-        }]),
+                    return JSON.stringify({
+                        ...JSON.parse(content),
+                        name,
+                        version,
+                        author,
+                        homepage: homepage || repository.url,
+                    });
+                },
+            },
+        ]),
     ],
     node: {
         __dirname: false,
-        __filename: false
+        __filename: false,
     },
 };
 
-module.exports = [
-    rendererProcessConfig,
-    mainProcessConfig,
-];
+module.exports = [rendererProcessConfig, mainProcessConfig];

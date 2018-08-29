@@ -1,19 +1,18 @@
-const { paths : { resolve, src } } = require('./utils');
+const {
+    paths: { resolve, src },
+} = require('./utils');
 
 module.exports = {
     rootDir: src('main'),
-    testMatch: [
-        '**/*.spec.js',
-        '**/*.test.js',
-    ],
+    testMatch: ['**/*.spec.js', '**/*.test.js'],
     setupTestFrameworkScriptFile: resolve('jest', 'setup.main.js'),
     testEnvironment: 'node',
     transform: {
         '^.+\\.js$': resolve('jest', 'transform', 'js'),
     },
-    "moduleNameMapper": {
-        "@shared/(.*)$": src('shared', '$1'),
+    moduleNameMapper: {
+        '@shared/(.*)$': src('shared', '$1'),
     },
-    "collectCoverage": true,
-    "coverageDirectory": resolve('..', 'coverage', 'main'),
+    collectCoverage: true,
+    coverageDirectory: resolve('..', 'coverage', 'main'),
 };
