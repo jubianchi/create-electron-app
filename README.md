@@ -61,7 +61,7 @@ Note that the [`src/shared/`](src/shared/) directory is aliased to `@shared` to 
 extensions. Let's say you want to enable [`react-perf-devtool`](https://github.com/nitin42/react-perf-devtool).
 
 The first thing to to is to find the extension in the 
-[Chrome Web Store](https://chrome.google.com/webstore/category/extensions). `react-erf-devtool` is here: 
+[Chrome Web Store](https://chrome.google.com/webstore/category/extensions). `react-perf-devtool` is here: 
 `https://chrome.google.com/webstore/detail/react-performance-devtool/fcombecpigkkfcbfaeikoeegkmkjfbfm`. Once you have 
 the extension's URL, find the extension's ID (the last part of the URL). In our case, it is 
 `fcombecpigkkfcbfaeikoeegkmkjfbfm`.

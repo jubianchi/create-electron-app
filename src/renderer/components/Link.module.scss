@@ -2,9 +2,9 @@
 @import "~bootstrap/scss/variables";
 
 .Link {
-  color: $info;
+  color: lighten($info, 15%);
 }
 
 .Link:hover {
-  color: darken($info, 15%)
+  color: $info;
 }

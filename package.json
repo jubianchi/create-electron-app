@@ -18,7 +18,7 @@
     "build": "npm run build:${NODE_ENV:-${npm_package_config_default_build_environment:-development}}",
     "build:development": "webpack --config config/webpack.development.js",
     "build:production": "webpack --config config/webpack.production.js",
-    "build:test": "webpack --config config/webpack.test.js",
+    "build:test": "NODE_ENV=test webpack --config config/webpack.test.js",
     "changelog": "conventional-changelog -i CHANGELOG.md -s -p ${npm_package_config_conventional_changelog_preset:-angular}",
     "electron": "electron dist",
     "package": "npm run build:production && electron-builder -c config/electron-builder.js -mwl",
@@ -26,9 +26,9 @@
     "start:main": "nodemon --watch config/webpack.development.js --watch config/webpack.server.js --exec 'node_modules/.bin/webpack  --config config/webpack.server.js --config-name main --watch'",
     "start:renderer": "nodemon --watch config/webpack.development.js --watch config/webpack.server.js --exec 'node_modules/.bin/webpack-dev-server --config config/webpack.server.js --config-name renderer'",
     "test": "npm-run-all build:test test:renderer test:main",
-    "test:main": "jest --coverage --coverageDirectory $(pwd)/coverage/main --config config/jest.main.js",
-    "test:renderer": "jest --config config/jest.renderer.js",
-    "test:scripts": "jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'"
+    "test:main": "NODE_ENV=test jest --coverage --coverageDirectory $(pwd)/coverage/main --config config/jest.main.js",
+    "test:renderer": "NODE_ENV=test jest --config config/jest.renderer.js",
+    "test:scripts": "NODE_ENV=test jest --coverage --coverageDirectory $(pwd)/coverage/scripts --clearMocks --rootDir $(pwd)/scripts '.*\\.spec.js'"
   },
   "config": {
     "conventional_changelog_preset": "angular",

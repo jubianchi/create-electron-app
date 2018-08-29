@@ -1,3 +1,4 @@
+const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { NamedModulesPlugin } = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
@@ -60,6 +61,11 @@ const rendererProcessConfig = {
                         options: {
                             cacheDirectory: true,
                             presets: [
+                                ['env', {
+                                    targets: {
+                                        chrome: "61"
+                                    }
+                                }],
                                 'react',
                             ],
                             plugins: [
@@ -214,7 +220,7 @@ const mainProcessConfig = {
                     author,
                     homepage: homepage || repository.url
                 })
-            }
+            },
         }]),
     ],
     node: {

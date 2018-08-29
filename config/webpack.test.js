@@ -1,3 +1,4 @@
+const { DefinePlugin } = require('webpack');
 const [rendererProcessConfig, mainProcessConfig] = require('./webpack.production');
 
 module.exports = [
@@ -10,5 +11,11 @@ module.exports = [
         ...mainProcessConfig,
         devtool: 'cheap-source-map',
         bail: false,
+        plugins: [
+            new DefinePlugin({
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+            }),
+            ...mainProcessConfig.plugins,
+        ],
     },
 ];

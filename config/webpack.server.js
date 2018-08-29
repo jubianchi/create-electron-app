@@ -6,7 +6,7 @@ const { paths : { resolve, dist } } = require('./utils');
 const csp = {
     default: ['none'],
     style: ['self', 'blob:'],
-    script: ['self', 'unsafe-inline'],
+    script: ['self'],
     connect: [
         'self',
         `ws:`,
@@ -42,8 +42,8 @@ module.exports = [
                 // but electron does not seem to honor modified headers
                 // See: https://github.com/electron/electron/issues/14342
                 // https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy
-                'Content-Security-Policy': Object.keys(csp).reduce((prev, key) => {
-                    return `${prev}${prev.length > 0 ? '; ' : ''}${key}-src ${csp[key].map(value => ['none', 'self', 'unsafe-inline'].indexOf(value) > -1 ? `'${value}'` : value).join(' ')}`;
+                'Content-Security-Policy-Report-Only': Object.keys(csp).reduce((prev, key) => {
+                    return `${prev}${prev.length > 0 ? '; ' : ''}${key}-src ${csp[key].map(value => ['none', 'self', 'unsafe-inline', 'unsafe-eval'].indexOf(value) > -1 ? `'${value}'` : value).join(' ')}`;
                 }, '')
             }
         },

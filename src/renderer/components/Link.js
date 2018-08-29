@@ -8,5 +8,5 @@ export default (props) => {
         window.openExternal(event.currentTarget.href);
     };
 
-    return <a href={props.href} onClick={handleClick} className={`${style.Link} ${props.className}`}>{props.children}</a>;
+    return <a href={props.href} onClick={handleClick} className={`${style.Link} ${props.className || ''}`}>{props.children}</a>;
 };

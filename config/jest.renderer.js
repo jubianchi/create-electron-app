@@ -14,7 +14,7 @@ module.exports = {
         '^(?!.*\\.(jsx?|s?css)$)': resolve('jest', 'transform', 'file'),
     },
     "moduleNameMapper": {
-        "shared/(.*)$": src('shared', '$1'),
+        "@shared/(.*)$": src('shared', '$1'),
     },
     "collectCoverage": true,
     "coverageDirectory": resolve('..', 'coverage', 'renderer'),

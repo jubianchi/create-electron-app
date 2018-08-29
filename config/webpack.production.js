@@ -60,6 +60,11 @@ const rendererProcessConfig = {
                         options: {
                             cacheDirectory: true,
                             presets: [
+                                ['env', {
+                                    targets: {
+                                        chrome: "61"
+                                    }
+                                }],
                                 'react'
                             ],
                             plugins: [
