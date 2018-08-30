@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 // The shared module is aliased and resolved by Webpack and Jest.
 // You can include any file from this directory using the @shared alias.
@@ -6,14 +7,8 @@ import feelGood from '@shared/actions/feel-good';
 import feelBad from '@shared/actions/feel-bad';
 import style from './Feeling.module.scss';
 
-export default connect(
-    state => state,
-    dispatch => ({
-        onGoodClick: () => dispatch(feelGood()),
-        onBadClick: () => dispatch(feelBad()),
-    }),
-)(props => (
-    <Fragment>
+export const Feeling = props => (
+    <section className={props.className}>
         <h1 className="text-light mb-0">
             Do you like <span className="text-monospace">create-electron-app</span>?
         </h1>
@@ -21,7 +16,7 @@ export default connect(
             <small>This is just an excuse to show you how redux components work...</small>
         </p>
 
-        <div className={`row justify-content-center ${props.className}`}>
+        <div className="row justify-content-center">
             <div className="col-6 text-center">
                 <div className="btn-group">
                     {props.feel === null && (
@@ -53,5 +48,25 @@ export default connect(
                 </div>
             </div>
         </div>
-    </Fragment>
-));
+    </section>
+);
+
+Feeling.propTypes = {
+    className: PropTypes.string,
+    onGoodClick: PropTypes.func.isRequired,
+    onBadClick: PropTypes.func.isRequired,
+    feel: PropTypes.oneOf([null, 'good', 'bad']),
+};
+
+Feeling.defaultProps = {
+    className: '',
+    feel: null,
+};
+
+export default connect(
+    state => state,
+    dispatch => ({
+        onGoodClick: () => dispatch(feelGood()),
+        onBadClick: () => dispatch(feelBad()),
+    }),
+)(Feeling);
