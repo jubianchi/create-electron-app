@@ -1,0 +1,29 @@
+sudo: true
+
+matrix:
+    include:
+        - os: linux
+          language: node_js
+          node_js:
+              - 8
+
+cache:
+    directories:
+        - '$HOME/.npm'
+
+before_install:
+    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
+    - npm install -g greenkeeper-lockfile
+    - npm install -g xvfb-maybe
+
+before_script:
+    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
+    - greenkeeper-lockfile-update
+
+script:
+    - npm run cs -- -l
+    - xvfb-maybe npm run test
+
+after_script:
+    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
+    - greenkeeper-lockfile-upload
