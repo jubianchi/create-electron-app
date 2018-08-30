@@ -16,6 +16,11 @@ before_install:
     - npm install -g greenkeeper-lockfile
     - npm install -g xvfb-maybe
 
+# Remove this block if you are not using
+# On Travis, the default is to use `npm ci` which is better
+install:
+    - npm install
+
 before_script:
     # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
     - greenkeeper-lockfile-update

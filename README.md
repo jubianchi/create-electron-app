@@ -1,5 +1,7 @@
 # create-electron-app
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/jubianchi/create-electron-app.svg)](https://greenkeeper.io/)
+
 ![Logo](resources/logo.png)
 
 ## 🤔 Why?
