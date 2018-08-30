@@ -1,5 +1,6 @@
 # create-electron-app
 
+[![Build Status](https://travis-ci.org/jubianchi/create-electron-app.svg?branch=master)](https://travis-ci.org/jubianchi/create-electron-app)
 [![Greenkeeper badge](https://badges.greenkeeper.io/jubianchi/create-electron-app.svg)](https://greenkeeper.io/)
 
 ![Logo](resources/logo.png)
