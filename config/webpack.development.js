@@ -52,6 +52,7 @@ const rendererProcessConfig = {
                             rules: {
                                 'css-modules/no-unused-class': 'error',
                                 'css-modules/no-undef-class': 'warn',
+                                'jsx-a11y/href-no-hash': 0,
                             },
                         },
                     },
@@ -67,18 +68,18 @@ const rendererProcessConfig = {
                             cacheDirectory: true,
                             presets: [
                                 [
-                                    'env',
+                                    '@babel/preset-env',
                                     {
                                         targets: {
                                             chrome: '61',
                                         },
                                     },
                                 ],
-                                'react',
+                                '@babel/preset-react',
                             ],
                             plugins: [
-                                'babel-plugin-transform-runtime',
-                                'transform-object-rest-spread',
+                                '@babel/plugin-transform-runtime',
+                                '@babel/plugin-proposal-object-rest-spread',
                                 'react-hot-loader/babel',
                             ],
                         },
@@ -195,6 +196,7 @@ const mainProcessConfig = {
                             configFile: require.resolve('eslint-config-react-app'),
                             rules: {
                                 'eol-last': ['error', 'always'],
+                                'jsx-a11y/href-no-hash': 0,
                             },
                         },
                     },
@@ -210,7 +212,7 @@ const mainProcessConfig = {
                             cacheDirectory: true,
                             presets: [
                                 [
-                                    'env',
+                                    '@babel/preset-env',
                                     {
                                         targets: {
                                             node: '8.9',
@@ -218,7 +220,7 @@ const mainProcessConfig = {
                                     },
                                 ],
                             ],
-                            plugins: ['babel-plugin-transform-runtime', 'transform-object-rest-spread'],
+                            plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-object-rest-spread'],
                         },
                     },
                 ],

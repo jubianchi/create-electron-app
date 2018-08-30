@@ -1,6 +1,6 @@
 const babelJest = require('babel-jest');
 
 module.exports = babelJest.createTransformer({
-    presets: ['env', 'react'],
-    plugins: ['transform-object-rest-spread'],
+    presets: ['@babel/preset-env', '@babel/preset-react'],
+    plugins: ['@babel/plugin-proposal-object-rest-spread'],
 });
