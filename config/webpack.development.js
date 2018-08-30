@@ -18,7 +18,6 @@ const rendererProcessConfig = {
         maxEntrypointSize: 400000,
         maxAssetSize: 400000,
     },
-    //target: 'electron-renderer',
     target: 'web',
     entry: src('renderer', 'index.js'),
     output: {
@@ -195,7 +194,7 @@ const mainProcessConfig = {
                             fix: true,
                             configFile: require.resolve('eslint-config-react-app'),
                             rules: {
-                                'eol-last': ["error", "always"],
+                                'eol-last': ['error', 'always'],
                             },
                         },
                     },
