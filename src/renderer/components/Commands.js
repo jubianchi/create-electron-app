@@ -1,8 +1,9 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export default props => (
-    <Fragment>
-        <div className={`row justify-content-center mb-3`}>
+const Commands = props => (
+    <section className={props.className}>
+        <div className="row justify-content-center mb-3">
             <div className="col">
                 <p className="text-light">
                     To run the local <em>development</em> environment, execute the following command:
@@ -13,7 +14,7 @@ export default props => (
             </div>
         </div>
 
-        <div className={`row justify-content-center mb-3`}>
+        <div className="row justify-content-center mb-3">
             <div className="col">
                 <p className="text-light">
                     To build a <em>development</em> version of the application, execute one of the following command:
@@ -37,7 +38,7 @@ export default props => (
             </div>
         </div>
 
-        <div className={`row justify-content-center mb-3`}>
+        <div className="row justify-content-center mb-3">
             <div className="col">
                 <p className="text-light">
                     To run the full (main and renderer processes) test suite, execute the following command:
@@ -60,7 +61,7 @@ export default props => (
             </div>
         </div>
 
-        <div className={`row justify-content-center ${props.className}`}>
+        <div className="row justify-content-center">
             <div className="col">
                 <p className="text-light">To run the application, execute the following command:</p>
                 <pre className="bg-light p-3 rounded text-left">
@@ -68,5 +69,15 @@ export default props => (
                 </pre>
             </div>
         </div>
-    </Fragment>
+    </section>
 );
+
+Commands.propTypes = {
+    className: PropTypes.string,
+};
+
+Commands.defaultProps = {
+    className: '',
+};
+
+export default Commands;

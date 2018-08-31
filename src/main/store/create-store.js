@@ -1,4 +1,4 @@
-import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { ipcMain } from 'electron';
 import ipc from './middleware';
 

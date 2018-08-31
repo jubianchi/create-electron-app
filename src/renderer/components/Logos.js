@@ -1,4 +1,5 @@
-import React, { Fragment } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ElectronLogo from './Logo-electron.svg';
 import WebpackLogo from './Logo-webpack.svg';
 import ReactLogo from './Logo-react.svg';
@@ -9,8 +10,8 @@ import SpectronLogo from './Logo-spectron.svg';
 import Logo from './Logo';
 import Link from './Link';
 
-export default props => (
-    <Fragment>
+const Logos = props => (
+    <section className={props.className}>
         <div className="row text-center mb-3 justify-content-center">
             <div className="col-6">
                 <Logo alt="Electron" src={ElectronLogo} />
@@ -41,7 +42,7 @@ export default props => (
                 <Logo alt="Spectron" src={SpectronLogo} />
             </div>
         </div>
-        <div className={`row text-center text-light text-monospace justify-content-center ${props.className}`}>
+        <div className="row text-center text-light text-monospace justify-content-center">
             <Link href="https://electronjs.org/">#electron</Link>
             &nbsp;
             <Link href="https://webpack.js.org/">#webpack</Link>
@@ -66,5 +67,15 @@ export default props => (
             &nbsp;
             <Link href="https://electronjs.org/spectron/">#spectron</Link>
         </div>
-    </Fragment>
+    </section>
 );
+
+Logos.propTypes = {
+    className: PropTypes.string,
+};
+
+Logos.defaultProps = {
+    className: '',
+};
+
+export default Logos;
