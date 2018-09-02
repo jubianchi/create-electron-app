@@ -2,11 +2,13 @@ import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import ipc from './middleware';
 
 export default (reducers, middlewares = []) => {
-    const enhancers = [applyMiddleware(ipc, ...middlewares)];
+    const enhancers = [];
 
     if (process.env.NODE_ENV === 'development' && window.__REDUX_DEVTOOLS_EXTENSION__) {
         enhancers.push(window.__REDUX_DEVTOOLS_EXTENSION__());
     }
+
+    enhancers.push(applyMiddleware(ipc, ...middlewares));
 
     const store = createStore(combineReducers(reducers), window.getGlobal('reduxState'), compose(...enhancers));
 
