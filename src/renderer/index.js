@@ -11,8 +11,10 @@ import reducers from '@shared/reducers';
 const store = createStore(reducers);
 
 render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
+    <StrictMode>
+        <Provider store={store}>
+            <App />
+        </Provider>
+    </StrictMode>,
     document.querySelector('#root'),
 );

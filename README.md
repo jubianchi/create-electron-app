@@ -15,6 +15,14 @@
 If we were to talk using `create-react-app` words we could say that with `createa-electron-app` you get a pre-ejected
 environment meaning you will have full-control over the configuration of each tool OOTB.
 
+### Best practices
+
+#### React Strict Mode
+
+We enabled React [Strict Mode](https://reactjs.org/docs/strict-mode.html) to warn you about potential problems in your
+application. We want you to be able to build the best possible app and also make any future update of dependencies easy.
+When React will be ready for async rendering, you'll be happy to have every warnings already fixed and be ready to upgrade.
+
 ## 🏁 Initialize
 
 ```shell
