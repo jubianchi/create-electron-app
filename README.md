@@ -173,17 +173,17 @@ afterAll(() => stop(app));
 
 This test suite is a standard Jest suite configured to test your React components.
 
-We highly recommend you read the [official documentation](https://jestjs.io/docs/en/tutorial-react). 
-[Enzyme](https://airbnb.io/enzyme/) is configured with the React adapter. 
+We highly recommend you read the [official documentation](https://jestjs.io/docs/en/tutorial-react).
+[Enzyme](https://airbnb.io/enzyme/) is configured with the React adapter.
 
-**If you ever upgrade React, you will need to upgrade the Enzyme adapter in [`config/jest/setup.renderer.js`](config/jest/setup.renderer.js).** 
+**If you ever upgrade React, you will need to upgrade the Enzyme adapter in [`config/jest/setup.renderer.js`](config/jest/setup.renderer.js).**
 
 We've also added [`redux-mock-store`](https://github.com/dmitry-zaets/redux-mock-store). It will let you
 test component connected to a [Redux store](https://redux.js.org/basics/store).
 
 ### The `test:shared` suite
 
-This suite if probably the simplest one: it only uses Jest as the runner and the [standard matchers](https://jestjs.io/docs/en/expect). 
+This suite if probably the simplest one: it only uses Jest as the runner and the [standard matchers](https://jestjs.io/docs/en/expect).
 
 ## 🚀 Package & Distribute
 
