@@ -37,6 +37,50 @@ npm init jubianchi/electron-app <target-directory>
 
 ### Environment
 
+#### Redux
+
+Because Electron architecture is a bit special (i.e it uses two processes, the main and the renderer) we configured Redux
+to take advantage of this specificity.
+
+The store is configured on the main process side and replicated on the renderer side. This is done using a middleware which
+role is to forward actions from the main process to renderer processes and from renderer processes to the main process.
+This allows us to:
+
+-   dispatch actions from the main process and have the renderer processes updated;
+-   dispatch actions from the renderer processes and have the main and other renderer processes updated.
+
+Here is how it looks like:
+
+```
+         +-------------------------------------------------------+
+         |                                                       |
+         |                                                       |
++-------------------------------------------------+     +-------------------------------------------------+
+|        |                                        |     |        |                                        |
+|        |          MAIN PROCESS                  |     |        |       RENDERER PROCESSES               |
+|        |                                        |     |        |                                        |
+|  +-----+------+     +----------+     +-------+  |     |  +-----v------+     +----------+     +-------+  |
+|  |            |     |          |     |       |  |     |  |            |     |          |     |       |  |
+|  | DISPATCHER +-----> REDUCERS +-----> STORE |  |     |  | DISPATCHER +-----> REDUCERS +-----> STORE |  |
+|  |            |     |          |     |       |  |     |  |            |     |          |     |       |  |
+|  +-----^------+     +----------+     +-------+  |     |  +-----+------+     +----------+     +-------+  |
+|        |                                        |     |        |                                        |
++-------------------------------------------------+     +-------------------------------------------------+
+         |                                                       |
+         |                                                       |
+         +-------------------------------------------------------+
+```
+
+This is fairly simple, the middleware uses IPC to send actions to other processes. Because of this, actions have to be
+serializable to be handled correctly by the IPC channel.
+
+Sometimes, it might be usefull to not forward actions sent from the main or renderer processes. To do so, you can add a
+`local` property with the value `true` to your actions. When the middleware finds this property (and if it is `false`) it
+won't forward the action.
+
+When a renderer process receives an action forwarder by the main process from another renderer process, a `sender` property
+is added. It contains the [identifier](https://electronjs.org/docs/api/web-contents#contentsid) of the emitter process [`webContents`](https://electronjs.org/docs/api/web-contents).
+
 ### Directory structure
 
 Once initialized, your workspace will look like this:
