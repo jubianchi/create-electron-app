@@ -99,13 +99,13 @@ Once initialized, your workspace will look like this:
 The directory structure is pretty simple and should cover all your needs:
 
 -   [`config/`](config/) contains the configuration files used by the development tools (Webpack, Jest, ...);
--   [`resources`](resources/) actually only contains an image used to build the MacOS DMG. You'll be able to use this directory as you like;
+-   [`resources/`](resources/) actually only contains an image used to build the MacOS DMG. You'll be able to use this directory as you like;
 -   [`src/main/`](src/main/) contains the source files for the main process;
 -   [`src/renderer/`](src/renderer/) contains the source files for the renderer process;
--   [`src/shared/`](src/shared/) contains the source files for shared between the main and renderer process.
+-   [`src/shared/`](src/shared/) contains the source files shared between the main and renderer process.
 
 You are free to edit any of the files inside any directory but keep in mind that, the more you change the contents of
-configuration files the harder it will be to update to future `create-electron-app` release.
+configuration files the harder it will be to update to future `create-electron-app` releases.
 
 Note that the [`src/shared/`](src/shared/) directory is aliased to `@shared` to ease importing files from it.
 
@@ -135,8 +135,8 @@ Now you can open the [`src/main/index.js`](src/main/index.js) to apply the requi
   } catch (err) {}
 ```
 
-Some extension also requires you to apply some changes to the renderer part. `react-perf-devtool` is one of those. Be
-sure to red the extension's documentation. For the record, here is how you would enable `react-perf-devtool` on the
+Some extensions also require you to apply changes to the renderer part. `react-perf-devtool` is one of those. Be
+sure to read the extension's documentation. For the record, here is how you would enable `react-perf-devtool` on the
 renderer side, in the [`src/renderer/index.js`](src/renderer/index.js) file:
 
 ```diff
@@ -160,9 +160,9 @@ Each test suite will produce its own coverage report in the [`coverage/`](covera
 
 ### Scripts
 
-You'll be able to execute the tests suite using the `npm test` command but you can also run them separately:
+You'll be able to execute the test suites using the `npm test` command but you can also run them separately:
 
--   `test:main` to run the main process test suite. Before you run this scripts, be sure to run the `build:test` script before;
+-   `test:main` to run the main process test suite. Before you run this script, be sure to run the `build:test` script before;
 -   `test:renderer` to run the renderer processes test suite;
 -   `test:shared` to run the shared library test suite.
 
@@ -173,7 +173,7 @@ on the React part (the renderer) you can run:
 npm run test:main -- --watch
 ```
 
-We are adding the `-watch` flag which will be passed to Jest. Your tests will now be executed when files change.
+We are adding the `--watch` flag which will be passed to Jest. Your tests will now be executed when files change.
 
 ### The `test:main` suite
 
