@@ -33,9 +33,9 @@ const createWindow = () => {
             experimentalFeatures: false,
             // Security checklist #10
             // Same as experimental features
-            // This line could be removed as `enableBlinkFeatures` are disabled by default
+            // This line could be removed as `enableBlinkFeatures` is false by default
             //https://electronjs.org/docs/tutorial/security#10-do-not-use-enableblinkfeatures
-            enableBlinkFeatures: false,
+            enableBlinkFeatures: [],
         },
     });
 
@@ -118,9 +118,9 @@ app.on('web-contents-created', (event, contents) => {
         webPreferences.allowRunningInsecureContent = false;
         webPreferences.webSecurity = true;
         webPreferences.experimentalFeatures = false;
-        webPreferences.enableBlinkFeatures = false;
+        webPreferences.enableBlinkFeatures = [];
 
-        params.blinkfeatures = '';
+        params.blinkfeatures = [];
         params.allowpopups = false;
     });
 
