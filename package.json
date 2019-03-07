@@ -65,7 +65,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "conventional-changelog-cli": "^2.0.5",
     "copy-webpack-plugin": "^4.5.2",
-    "css-loader": "^1.0.0",
+    "css-loader": "^2.1.1",
     "electron-builder": "^20.28.3",
     "electron-devtools-installer": "^2.2.4",
     "enzyme": "^3.6.0",
