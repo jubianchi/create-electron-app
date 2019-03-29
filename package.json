@@ -47,7 +47,7 @@
     "inquirer-autocomplete-prompt": "^1.0.1",
     "semver": "^5.5.1",
     "sort-package-json": "^1.15.0",
-    "spdx-license-list": "^4.1.0",
+    "spdx-license-list": "^6.0.0",
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
