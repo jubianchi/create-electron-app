@@ -127,7 +127,7 @@ const rendererProcessConfig = {
         ],
     },
     plugins: [
-        new CleanWebpackPlugin(['*'], { root: dist() }),
+        new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: dist() }),
         new NamedModulesPlugin(),
         new HtmlWebPackPlugin({
             template: src('renderer', 'index.html'),

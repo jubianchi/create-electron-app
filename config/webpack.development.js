@@ -151,7 +151,7 @@ const rendererProcessConfig = {
             encoding: 'utf-8',
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.json'],
         }),
-        new CleanWebpackPlugin(['renderer'], { root: dist() }),
+        new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: dist('renderer') }),
         new NamedModulesPlugin(),
         new HtmlWebPackPlugin({
             template: src('renderer', 'index.html'),
@@ -233,7 +233,7 @@ const mainProcessConfig = {
             encoding: 'utf-8',
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.json'],
         }),
-        new CleanWebpackPlugin(['main'], { root: dist() }),
+        new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: dist('main') }),
         new CopyWebpackPlugin([
             {
                 from: resolve('electron.json'),
