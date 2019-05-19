@@ -45,7 +45,7 @@
     "fs-extra": "^8.0.1",
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
-    "semver": "^5.5.1",
+    "semver": "^6.0.0",
     "sort-package-json": "^1.15.0",
     "spdx-license-list": "^4.1.0",
     "valid-url": "^1.0.9"
