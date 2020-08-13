@@ -5,7 +5,7 @@ const {
 module.exports = {
     rootDir: src('renderer'),
     testMatch: ['**/*.spec.js?(x)', '**/*.test.js?(x)'],
-    setupTestFrameworkScriptFile: resolve('jest', 'setup.renderer.js'),
+    setupFilesAfterEnv: [resolve('jest', 'setup.renderer.js')],
     testEnvironment: 'jsdom',
     transform: {
         '^.+\\.jsx?$': resolve('jest', 'transform', 'jsx'),
