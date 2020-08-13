@@ -28,6 +28,9 @@ jobs:
               if: steps.npm-cache.outputs.cache-hit != 'true'
               run: npm install
 
+            - name: Install xvfb-maybe
+              run: sudo npm install -g xvfb-maybe
+
             - name: Coding style
               run: npm run cs -- -l
 

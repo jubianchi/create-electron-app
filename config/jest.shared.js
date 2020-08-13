@@ -5,7 +5,7 @@ const {
 module.exports = {
     rootDir: src('shared'),
     testMatch: ['**/*.spec.js', '**/*.test.js'],
-    setupTestFrameworkScriptFile: resolve('jest', 'setup.shared.js'),
+    setupFilesAfterEnv: [resolve('jest', 'setup.shared.js')],
     testEnvironment: 'node',
     transform: {
         '^.+\\.js$': resolve('jest', 'transform', 'js'),
