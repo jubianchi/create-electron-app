@@ -5,15 +5,13 @@ matrix:
         - os: linux
           language: node_js
           node_js:
-              - 8
+              - 12
 
 cache:
     directories:
         - '$HOME/.npm'
 
 before_install:
-    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
-    - npm install -g greenkeeper-lockfile
     - npm install -g xvfb-maybe
 
 # Remove this block if you are not using Greenkeeper
@@ -21,21 +19,6 @@ before_install:
 install:
     - npm install
 
-before_script:
-    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
-    - greenkeeper-lockfile-update
-
 script:
     - npm run cs -- -l
     - xvfb-maybe npm run test
-
-after_script:
-    # Remove this line if you are not using Greenkeeper (https://greenkeeper.io/)
-    - greenkeeper-lockfile-upload
-
-# Remove this block if you are not using Greenkeeper (https://greenkeeper.io/)
-# Change this line if you are using Greenkeeper: travis encrypt GH_TOKEN=<you-github-token> --add
-# This is required to encrypt the GH_TOKEN needed by Greenkeeper
-env:
-    global:
-        secure: YW7NTqnZ9lnyehtRdnDmSrS4vHpAIg5jOjpFZSCZSYcj3rvAIF0e2f9S8Y/WFW9aCJKfgOiN6SEUQiEmlArGk9VOo9tfgAsicxv9Q7sQ+lEy54Xy3OeKNRD7A7VhBFg85X/OFubKdcoHqIe3pffbLjf0iMKShzqoC33R/Cb0LPCqUyHy/bNIK+ybayRbnFE4Mx+5XFdvtr0gC8IPNtmM7V3h5cQ7787C8+5YUYIErCKM3KpdfkWxynEdJ1Z20g3Arggg/q93pYWLAyoD+dBzNjDFYMJaWHiXtKnV2KxYvOpIr4Mybn93UFaG9X029qo7cUhxSH/Y7ocCjjJNewnkQAP4IF0jsU3n/gPhk4uK/v5TFwctX5YmH9drpYPTOkOHBaAne8vx2AY2jZwDPT+7bJcsjkwyc5EYgR4h0CfLfcl5d0cYT0WZY+/kuMzbxDiS5UuKUDaFynWBS1I2wiYzDpOu2ExTSxj1eFtd0BgmWoTixdZJPQsPh8jvb7Rn4MYF2tvqd2i7zRqOnsQtkV2ehSAQkxdh/GwxKT9BWFBj+WVCLehY+2eKFZEYmhg0XCPxlTBoxth96Z28M/Yo+nQqP8OdZo9uUBeQ/ldeWAh+MrhSuUTdeMaI1PwChzLxuBh2h7xEQlL5ZhP+0cY/OcoTKQFha/AkqgSv0gK6fkJOwIo=
