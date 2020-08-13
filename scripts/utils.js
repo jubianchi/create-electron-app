@@ -132,7 +132,7 @@ module.exports = {
                 )}\n`,
             ),
         license: (appDirectory, license) => fs.writeFileSync(path.resolve(appDirectory, 'LICENSE'), license),
-        sources: function*(appDirectory) {
+        sources: function* (appDirectory) {
             for (const entry of ['config', 'resources', 'src', '.travis.yml']) {
                 fs.copySync(path.resolve(__dirname, '..', entry), path.resolve(appDirectory, entry));
 

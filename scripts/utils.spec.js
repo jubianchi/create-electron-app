@@ -292,8 +292,8 @@ describe('Scripts utils', () => {
             describe('devDependencies', () => {
                 test('should merge template and application JSONs', () =>
                     expect(Object.keys(JSON.parse(fs.writeFileSync.mock.calls[0][1]).devDependencies)).toEqual(
-                        Object.keys({ ...json.devDependencies, ...appJson.devDependencies }).sort(
-                            (a, b) => (a > b ? 1 : b > a ? -1 : 0),
+                        Object.keys({ ...json.devDependencies, ...appJson.devDependencies }).sort((a, b) =>
+                            a > b ? 1 : b > a ? -1 : 0,
                         ),
                     ));
 

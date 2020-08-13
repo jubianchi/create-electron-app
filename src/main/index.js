@@ -62,7 +62,7 @@ const createWindow = () => {
     });
 };
 
-app.on('ready', () => {
+app.whenReady().then(() => {
     if (process.env.NODE_ENV === 'development') {
         try {
             installExtension([REACT_PERF, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS])
@@ -76,7 +76,7 @@ app.on('ready', () => {
     });
 
     if (process.env.NODE_ENV !== 'production') {
-        session.defaultSession.clearCache(function() {
+        session.defaultSession.clearCache(function () {
             console.log('cache cleared');
         });
     }

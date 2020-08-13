@@ -40,11 +40,8 @@ module.exports = [
                 // https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy
                 'Content-Security-Policy-Report-Only': Object.keys(csp).reduce((prev, key) => {
                     return `${prev}${prev.length > 0 ? '; ' : ''}${key}-src ${csp[key]
-                        .map(
-                            value =>
-                                ['none', 'self', 'unsafe-inline', 'unsafe-eval'].indexOf(value) > -1
-                                    ? `'${value}'`
-                                    : value,
+                        .map(value =>
+                            ['none', 'self', 'unsafe-inline', 'unsafe-eval'].indexOf(value) > -1 ? `'${value}'` : value,
                         )
                         .join(' ')}`;
                 }, ''),

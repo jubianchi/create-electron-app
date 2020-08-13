@@ -1,10 +1,12 @@
 describe('Application', () => {
     let app;
 
-    beforeAll(async () =>
-        // application() is a helper declared in config/jest/setup.main.js
-        // it will ease the process of configuring and starting the application.
-        (app = await application()));
+    beforeAll(
+        async () =>
+            // application() is a helper declared in config/jest/setup.main.js
+            // it will ease the process of configuring and starting the application.
+            (app = await application()),
+    );
 
     afterAll(() => stop(app));
 

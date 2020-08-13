@@ -59,19 +59,13 @@ describe('Feeling', () => {
         );
 
         it('should dispatch the feelGood action', () => {
-            wrapper
-                .find('button')
-                .first()
-                .simulate('click');
+            wrapper.find('button').first().simulate('click');
 
             expect(store.getActions()).toContainEqual({ type: FEEL_GOOD });
         });
 
         it('should dispatch the feelBad action', () => {
-            wrapper
-                .find('button')
-                .last()
-                .simulate('click');
+            wrapper.find('button').last().simulate('click');
 
             expect(store.getActions()).toContainEqual({ type: FEEL_BAD });
         });
