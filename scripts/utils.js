@@ -146,5 +146,22 @@ module.exports = {
 
             yield '.gitignore';
         },
+        dotGithub: function* (appDirectory, dependabot, ghActions) {
+            if (dependabot) {
+                const entry = '.github/dependabot.yml';
+
+                fs.copySync(path.resolve(__dirname, '..', entry), path.resolve(appDirectory, entry));
+
+                yield entry;
+            }
+
+            if (ghActions) {
+                const entry = '.github/workflows';
+
+                fs.copySync(path.resolve(__dirname, '..', entry), path.resolve(appDirectory, entry));
+
+                yield entry;
+            }
+        },
     },
 };

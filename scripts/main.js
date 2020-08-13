@@ -132,6 +132,18 @@ new Promise(resolve => {
                 default: appPackageJson.homepage || null,
                 validate: input => !input || !!urlValidator.isWebUri(input) || 'Application homepage is invalid',
             },
+            {
+                type: 'confirm',
+                name: 'dependabot',
+                message: 'Would you like us to configure Dependabot?',
+                default: true,
+            },
+            {
+                type: 'confirm',
+                name: 'ghActions',
+                message: 'Would you like us to configure GitHub Actions?',
+                default: true,
+            },
         ),
     )
     .then(({ authorName, authorEmail, ...answers }) => {
@@ -179,6 +191,14 @@ new Promise(resolve => {
         log.info('Preparing application sources...');
         for (const entry of steps.sources(appDirectory)) {
             log.success(` ✔ ${entry} was written to ${path.resolve(appDirectory, entry)}`);
+        }
+
+        if (answers.dependabot || answers.ghActions) {
+            log.info('Preparing Github configurations...');
+
+            for (const entry of steps.dotGithub(appDirectory, answers.dependabot, answers.ghActions)) {
+                log.success(` ✔ ${entry} was written to ${path.resolve(appDirectory, entry)}`);
+            }
         }
 
         log();
