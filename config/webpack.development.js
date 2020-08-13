@@ -234,23 +234,25 @@ const mainProcessConfig = {
             extensions: ['.js', '.jsx', '.css', '.scss', '.sass', '.json'],
         }),
         new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: dist('main') }),
-        new CopyWebpackPlugin([
-            {
-                from: resolve('electron.json'),
-                to: dist('package.json'),
-                transform: content => {
-                    const { name, version, author, homepage, repository } = require('../package.json');
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: resolve('electron.json'),
+                    to: dist('package.json'),
+                    transform: content => {
+                        const { name, version, author, homepage, repository } = require('../package.json');
 
-                    return JSON.stringify({
-                        ...JSON.parse(content),
-                        name,
-                        version,
-                        author,
-                        homepage: homepage || repository.url,
-                    });
+                        return JSON.stringify({
+                            ...JSON.parse(content),
+                            name,
+                            version,
+                            author,
+                            homepage: homepage || repository.url,
+                        });
+                    },
                 },
-            },
-        ]),
+            ],
+        }),
     ],
     node: {
         __dirname: false,
