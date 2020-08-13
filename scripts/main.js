@@ -120,7 +120,7 @@ new Promise(resolve => {
             },
             {
                 type: 'input',
-                name: 'authorName',
+                name: 'authorEmail',
                 message: 'Application author email?',
                 default: (appPackageJson.author || {}).email || null,
                 validate: input => !input || emailValidator.validate(input) || 'Application author email is invalid',
@@ -146,7 +146,7 @@ new Promise(resolve => {
             },
         ),
     )
-    .then(({ authorName, authorEmail, ...answers }) => {
+    .then(({ authorName, authorEmail, dependabot, ghActions, ...answers }) => {
         log();
 
         if (!appDirectoryExists) {
@@ -193,10 +193,10 @@ new Promise(resolve => {
             log.success(` ✔ ${entry} was written to ${path.resolve(appDirectory, entry)}`);
         }
 
-        if (answers.dependabot || answers.ghActions) {
+        if (dependabot || ghActions) {
             log.info('Preparing Github configurations...');
 
-            for (const entry of steps.dotGithub(appDirectory, answers.dependabot, answers.ghActions)) {
+            for (const entry of steps.dotGithub(appDirectory, dependabot, ghActions)) {
                 log.success(` ✔ ${entry} was written to ${path.resolve(appDirectory, entry)}`);
             }
         }
